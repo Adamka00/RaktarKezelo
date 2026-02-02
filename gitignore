@@ -1,0 +1,16 @@
+# --- C# és .NET szemetek ---
+bin/
+obj/
+*.user
+*.suo
+.vs/
+*.dll
+*.exe
+*.pdb
+
+# --- JetBrains Rider beállítások ---
+.idea/
+*.sln.dotSettings.user
+
+# --- Mac OS szemetek ---
+.DS_Store
