@@ -8,7 +8,7 @@ A projekt két szakaszban valósul meg:
 2. **WinForms GUI:** Felhasználóbarát grafikus felület kialakítása (Windows környezetben).
 
 ## 🛠 Alkalmazott technológiák és elvek
-- **Nyelv:** C# (.NET 8)
+- **Nyelv:** C# (.NET 10)
 - **Fejlesztőkörnyezet:** JetBrains Rider (macOS)
 - **OOP alapelvek:** Egységbe zárás (Encapsulation), Öröklődés (Inheritance), Polimorfizmus (Polymorphism)
 - **S.O.L.I.D. elvek:** Különös tekintettel az Single Responsibility elvére
