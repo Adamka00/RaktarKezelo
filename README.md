@@ -15,7 +15,12 @@ A projekt két szakaszban valósul meg:
 - **Adattárolás:** CSV fájl alapú perzisztencia
 
 ## 📋 Jelenlegi funkciók
-- [ ] Termék modell kialakítása (Név, Ár, Mennyiség)
-- [ ] Raktár logika alapjai (Hozzáadás, Listázás)
-- [ ] Fájlkezelés (Mentés/Betöltés)
-- [ ] Hibakezelés (Exception handling)
+Az alaklamzás jelenlegi állapotában a következő funkciók érhetők el:
+  - Termékek hozzáadása, módosítása és törlése
+  - Terméklista megjelenítése konzolos felületen
+  - Adatok mentése és betöltése CSV fájlból
+
+## 🔜 További fejlesztési tervek
+- Grafikus felület kialakítása Windows Forms segítségével
+- Felhasználói interakciók kezelése GUI-n keresztül
+- További funkciók hozzáadása a raktárkezeléshez (LinQ, rendezés, szűrés)
