@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RaktarKezelo.Konzol")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3eec74d400213aee04bbb89faa4e531b6b9e637c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8af14f0e4bb50dd369ef565eb117404d49347c51")]
 [assembly: System.Reflection.AssemblyProductAttribute("RaktarKezelo.Konzol")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RaktarKezelo.Konzol")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

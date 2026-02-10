@@ -1,3 +1,5 @@
+using System.Linq;
+
 namespace RaktarKezelo.Konzol;
 
 public class Raktar : IRaktar
@@ -17,5 +19,24 @@ public class Raktar : IRaktar
     public List<Termek> GetOsszesTermek()
     {
         return termekek;
+    }
+    
+    public List<Termek> KeresesNevAlapjan(string kulcsszo)
+    {
+        return termekek
+            .Where(t => t.Nev.ToLower().Contains(kulcsszo.ToLower()))
+            .ToList();
+    }
+    
+    public List<Termek> RendezesArAlapjan(bool novekvo)
+    {
+        if (novekvo)
+        {
+            return termekek.OrderBy(t => t.Ar).ToList();
+        }
+        else
+        {
+            return termekek.OrderByDescending(t => t.Ar).ToList();
+        }
     }
 }
