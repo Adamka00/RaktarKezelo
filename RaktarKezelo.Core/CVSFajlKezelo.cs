@@ -1,6 +1,6 @@
-using System.Text;
+/*using System.Text;
 
-namespace RaktarKezelo.Konzol;
+namespace RaktarKezelo.Core;
 
 public class CVSFajlKezelo : IFajlKezelo
 {
@@ -63,4 +63,4 @@ public class CVSFajlKezelo : IFajlKezelo
 
         return betoltottLista;
     }
-}
+}*/

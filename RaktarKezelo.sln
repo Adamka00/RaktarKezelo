@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaktarKezelo.Konzol", "RaktarKezelo.Konzol\RaktarKezelo.Konzol.csproj", "{50DDBC3B-5205-4E74-844F-5F42FE8EE63B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaktarKezelo.Core", "RaktarKezelo.Core\RaktarKezelo.Core.csproj", "{50DDBC3B-5205-4E74-844F-5F42FE8EE63B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

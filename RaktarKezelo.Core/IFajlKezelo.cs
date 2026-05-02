@@ -1,4 +1,5 @@
-namespace RaktarKezelo.Konzol;
+using RaktarKezelo.Core.Entities;
+namespace RaktarKezelo.Core;
 
 public interface IFajlKezelo
 {
