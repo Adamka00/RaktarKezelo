@@ -1,0 +1,15 @@
+/Users/adamka00/ProOktatas/Projektek/RaktarKezelo-Project/RaktarKezelo/RaktarKezelo.Konzol/bin/Debug/net10.0/RaktarKezelo.Konzol
+/Users/adamka00/ProOktatas/Projektek/RaktarKezelo-Project/RaktarKezelo/RaktarKezelo.Konzol/bin/Debug/net10.0/RaktarKezelo.Konzol.deps.json
+/Users/adamka00/ProOktatas/Projektek/RaktarKezelo-Project/RaktarKezelo/RaktarKezelo.Konzol/bin/Debug/net10.0/RaktarKezelo.Konzol.runtimeconfig.json
+/Users/adamka00/ProOktatas/Projektek/RaktarKezelo-Project/RaktarKezelo/RaktarKezelo.Konzol/bin/Debug/net10.0/RaktarKezelo.Konzol.dll
+/Users/adamka00/ProOktatas/Projektek/RaktarKezelo-Project/RaktarKezelo/RaktarKezelo.Konzol/bin/Debug/net10.0/RaktarKezelo.Konzol.pdb
+/Users/adamka00/ProOktatas/Projektek/RaktarKezelo-Project/RaktarKezelo/RaktarKezelo.Konzol/obj/Debug/net10.0/RaktarKezelo.Konzol.GeneratedMSBuildEditorConfig.editorconfig
+/Users/adamka00/ProOktatas/Projektek/RaktarKezelo-Project/RaktarKezelo/RaktarKezelo.Konzol/obj/Debug/net10.0/RaktarKezelo.Konzol.AssemblyInfoInputs.cache
+/Users/adamka00/ProOktatas/Projektek/RaktarKezelo-Project/RaktarKezelo/RaktarKezelo.Konzol/obj/Debug/net10.0/RaktarKezelo.Konzol.AssemblyInfo.cs
+/Users/adamka00/ProOktatas/Projektek/RaktarKezelo-Project/RaktarKezelo/RaktarKezelo.Konzol/obj/Debug/net10.0/RaktarKezelo.Konzol.csproj.CoreCompileInputs.cache
+/Users/adamka00/ProOktatas/Projektek/RaktarKezelo-Project/RaktarKezelo/RaktarKezelo.Konzol/obj/Debug/net10.0/RaktarKezelo.Konzol.sourcelink.json
+/Users/adamka00/ProOktatas/Projektek/RaktarKezelo-Project/RaktarKezelo/RaktarKezelo.Konzol/obj/Debug/net10.0/RaktarKezelo.Konzol.dll
+/Users/adamka00/ProOktatas/Projektek/RaktarKezelo-Project/RaktarKezelo/RaktarKezelo.Konzol/obj/Debug/net10.0/refint/RaktarKezelo.Konzol.dll
+/Users/adamka00/ProOktatas/Projektek/RaktarKezelo-Project/RaktarKezelo/RaktarKezelo.Konzol/obj/Debug/net10.0/RaktarKezelo.Konzol.pdb
+/Users/adamka00/ProOktatas/Projektek/RaktarKezelo-Project/RaktarKezelo/RaktarKezelo.Konzol/obj/Debug/net10.0/RaktarKezelo.Konzol.genruntimeconfig.cache
+/Users/adamka00/ProOktatas/Projektek/RaktarKezelo-Project/RaktarKezelo/RaktarKezelo.Konzol/obj/Debug/net10.0/ref/RaktarKezelo.Konzol.dll
