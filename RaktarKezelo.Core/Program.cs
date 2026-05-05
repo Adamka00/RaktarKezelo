@@ -1,5 +1,6 @@
-﻿using RaktarKezelo.Core.Entities; // Csak ezt az egyet használd az entitásokhoz!
-using Microsoft.EntityFrameworkCore;
+﻿using RaktarKezelo.Core.Entities;
+using RaktarKezelo.Core.Repositories;
+
 
 namespace RaktarKezelo.Core;
 
@@ -7,57 +8,68 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("--- RaktárKezelő Adatbázis Teszt ---");
+        Console.WriteLine("=== BÁLNAERŐS RAKTÁR RENDSZER TESZT (2026) ===\n");
 
-        using (var db = new RaktarContext())
+        // 1. Service példányosítása (ez elintézi a Repository-kat és a Contextet is)
+        var raktar = new RaktarService();
+
+        try
         {
-            try
+            // 2. Egy kis idő formátum teszt (amit kértél)
+            Console.WriteLine($"Aktuális szerveridő: {raktar.GetFormattedCurrentTime()}");
+            Console.WriteLine("--------------------------------------------");
+
+            // 3. Nézzük meg az összes terméket, ami eddig van
+            var regiTermekek = raktar.Kereses(""); // Üres keresés = minden
+            Console.WriteLine($"Jelenleg {regiTermekek.Count} termék van a rendszerben.");
+
+            // 4. Készletmozgás teszt
+            // Tegyük fel, hogy a korábban felvett 1-es ID-jú termékből eladunk 2 darabot
+            if (regiTermekek.Any())
             {
-                // Először töröljük a régi tesztadatokat, hogy tiszta legyen a terep (opcionális)
-                // db.Database.EnsureCreated(); 
+                var elsoTermek = regiTermekek.First();
+                Console.WriteLine($"\nELADÁS TESZT: {elsoTermek.Nev} (Készlet: {elsoTermek.Keszlet})");
+                
+                raktar.KeszletModositas(elsoTermek.Id, -2, "Eladás");
+                
+                // Újra lekérjük, hogy lássuk a változást
+                Console.WriteLine($"Új készlet: {elsoTermek.Keszlet} (Naplózva az adatbázisba! ✅)");
+            }
 
-                var kat = new Kategoria { Nev = "Kéziszerszámok" };
-                db.Kategoriak.Add(kat);
-                db.SaveChanges();
+            // 5. Raktár-érték elemzés
+            decimal osszertek = raktar.GetTeljesRaktarErtek();
+            Console.WriteLine($"\nTELJES RAKTÁRÉRTÉK: {osszertek:N2} Ft");
 
-                // Explicit megadjuk a típust, hogy ne legyen "Ambiguous"
-                Termek ujTermek = new Termek
+            // 6. Kategória statisztika
+            Console.WriteLine("\nKATEGÓRIA STATISZTIKA:");
+            foreach (var stat in raktar.GetKategoriaStatisztika())
+            {
+                Console.WriteLine($"- {stat.Key}: {stat.Value} féle termék");
+            }
+
+            // 7. Kritikus készlet figyelés
+            var kritikusok = raktar.GetKritikusKeszlet();
+            if (kritikusok.Any())
+            {
+                Console.WriteLine("\n⚠️ FIGYELEM! ALACSONY KÉSZLET:");
+                foreach (var k in kritikusok)
                 {
-                    Nev = "Profi Kalapács 500g",
-                    Cikkszam = "KAL-2026-001",
-                    Keszlet = 15,
-                    Ar = 4500.50m,
-                    MinKeszlet = 3,
-                    Megjegyzes = "Nagyon ütős.",
-                    KategoriaId = kat.Id
-                };
-
-                db.Termekek.Add(ujTermek);
-                db.SaveChanges();
-
-                Console.WriteLine("Sikeres mentés!");
-
-                // Itt kényszerítjük a típust a Listában is
-                List<Termek> mindenTermek = db.Termekek
-                    .Include(t => t.Kategoria)
-                    .ToList();
-
-                foreach (Termek t in mindenTermek)
-                {
-                    // Itt külön változókba szedjük, hogy a WriteLine ne akadjon ki
-                    string nev = t.Nev;
-                    string kod = t.Cikkszam;
-                    string kategoriaNev = t.Kategoria?.Nev ?? "Nincs kategória";
-                    
-                    Console.WriteLine($"- [{kod}] {nev} | Kategória: {kategoriaNev} | Ár: {t.Ar} Ft");
+                    Console.WriteLine($"  -> {k.Nev} (Csak {k.Keszlet} db van, minimum: {k.MinKeszlet})");
                 }
             }
-            catch (Exception ex)
+            else
             {
-                Console.WriteLine($"HIBA: {ex.Message}");
-                if (ex.InnerException != null) Console.WriteLine($"Infó: {ex.InnerException.Message}");
+                Console.WriteLine("\nKészlet rendben, nincs kritikus termék. ✅");
             }
+
         }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"\n❌ HIBA A TESZT SORÁN: {ex.Message}");
+            if (ex.InnerException != null) Console.WriteLine($"Részletek: {ex.InnerException.Message}");
+        }
+
+        Console.WriteLine("\nTeszt vége. Nyomj egy gombot!");
         Console.ReadKey();
     }
 }
