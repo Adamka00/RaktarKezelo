@@ -1,31 +1,31 @@
 # 📦 Raktárkezelő Rendszer (ProOktatás Projekt)
 
-Ez egy C# nyelven íródott raktárkezelő alkalmazás, amely a **ProOktatás Full-stack tanfolyamának** keretein belül készül. A projekt célja a C# nyelv alapjainak, az OOP elveknek és a Windows Forms keretrendszernek a bemutatása.
+Ez egy modern, rétegelt architektúrájú C# alkalmazás, amely a **ProOktatás Full-stack tanfolyamának** keretein belül készül. A projekt a fájlalapú tárolástól eljutott a professzionális, adatbázis-központú vállalati megoldásokig.
 
-## 🚀 Fejlesztési terv
-A projekt két szakaszban valósul meg:
-1. **Konzolos prototípus:** Az üzleti logika (mentés, betöltés, listázás, keresés) kidolgozása. ✅ *KÉSZ*
-2. **WinForms GUI:** Felhasználóbarát grafikus felület kialakítása (Windows környezetben). 🔜 *KÖVETKEZŐ LÉPÉS*
+## 🚀 Fejlesztési szakaszok
+1. **Konzolos prototípus (Legacy):** Kezdeti verzió CSV alapú tárolással. ✅
+2. **Adatbázis & Backend (Core):** Átállás MySQL alapokra, Entity Framework Core és Repository minta bevezetése. ✅ *JELENLEGI ÁLLAPOT*
+3. **WinForms GUI:** Modern grafikus felület és real-time statisztikák kialakítása. 🔜 *KÖVETKEZŐ LÉPÉS*
 
-## 🛠 Alkalmazott technológiák és elvek
-- **Nyelv:** C# (.NET 8/10)
-- **Fejlesztőkörnyezet:** JetBrains Rider (macOS)
-- **OOP alapelvek:** Egységbe zárás (Encapsulation), Polimorfizmus (Override)
-- **S.O.L.I.D. elvek:** - *Single Responsibility:* Külön osztályok az adatnak, a logikának és a fájlkezelésnek.
-    - *Dependency Inversion:* Interfész alapú fejlesztés (`IRaktar`, `IFajlKezelo`).
-- **Adattárolás:** CSV fájl alapú perzisztencia (StreamWriter/StreamReader).
-- **Adatkezelés:** LINQ (Language Integrated Query) és Lambda kifejezések a kereséshez és rendezéshez.
+## 🛠 Alkalmazott technológiák
+- **Nyelv:** C# (.NET 10)
+- **Fejlesztőkörnyezet:** JetBrains Rider (macOS M1)
+- **Adatbázis:** MySQL / MariaDB (Pomelo EF Core provider)
+- **ORM:** Entity Framework Core (Code-First megközelítés, Migrations)
+- **Architektúra:** 
+    - **Repository Pattern:** Az adatkezelés elszigetelése az üzleti logikától.
+    - **Service Layer:** Központosított üzleti logika és készletkezelési algoritmusok.
 
-## 📋 Jelenlegi funkciók (Konzol)
-Az alkalmazás jelenlegi állapotában a backend logika teljesen funkcionális:
-- [x] **Termékek kezelése:** Új termékek felvétele egyedi azonosítóval (ID).
-- [x] **Listázás:** Teljes raktárkészlet megjelenítése formázott kimenettel.
-- [x] **Perzisztencia:** Adatok automatikus mentése és betöltése CSV fájlból (UTF-8 kódolással).
-- [x] **Keresés:** Szűrés terméknévre (LINQ `Where`, kis/nagybetű független).
-- [x] **Rendezés:** Termékek listázása ár szerint növekvő vagy csökkenő sorrendben (LINQ `OrderBy`).
-- [x] **Hibakezelés:** `try-catch` blokkok a fájlműveleteknél és a bevitel ellenőrzésénél.
+## 🏗 Felépítés és Elvek (S.O.L.I.D.)
+A projekt a tiszta kód irányelveit követi:
+- **Single Responsibility:** Különálló rétegek az entitásoknak, az adatbázis-elérésnek és a logikának.
+- **Dependency Injection:** A Service réteg Repository-kon keresztül kommunikál az adatokkal.
+- **Adatintegritás:** SQL kényszerek (Foreign Keys), precíz `decimal(18,2)` típusú pénzügyi elszámolás.
 
-## 🔜 További fejlesztési tervek
-- **Grafikus felület (GUI):** Átállás Windows Forms alapokra.
-- **Interakció:** Gombok, beviteli mezők és DataGridView használata.
-- **Bővített CRUD:** Termékek törlése és módosítása az ID alapján.
+## 📋 Jelenlegi funkciók (Backend)
+- [x] **Relációs adatmodell:** Összetett kapcsolatok a Termékek, Kategóriák és Tranzakciók között.
+- [x] **Automatizált naplózás:** Minden készletmozgás (bevételezés/eladás) automatikusan bekerül a `Tranzakciok` táblába.
+- [x] **Leltárkezelés:** Teljes raktárérték számítása, kategória szintű statisztikák.
+- [x] **Kritikus készlet figyelés:** Automatikus lekérdezés a minimum készlet alatti termékekre.
+- [x] **Keresőmotor:** Cikkszám és név alapú gyorskeresés LINQ segítségével.
+- [x] **Dátumkezelés:** Központosított időformázás és tranzakció-időbélyegzés.
