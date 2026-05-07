@@ -14,8 +14,11 @@ public class TermekRepository : IRepository<Termek>
 
     public IEnumerable<Termek> GetAll()
     {
-        // Az Include-ot itt használjuk, hogy a kategória neve is mindig meglegyen
-        return _context.Termekek.Include(t => t.Kategoria).ToList();
+        
+        return _context.Termekek
+            .Include(t => t.Kategoria)
+            .Where(t => t.IsDeleted == false)
+            .ToList();
     }
 
     public Termek GetById(int id)
@@ -39,7 +42,8 @@ public class TermekRepository : IRepository<Termek>
         var termek = _context.Termekek.Find(id);
         if (termek != null)
         {
-            _context.Termekek.Remove(termek);
+            termek.IsDeleted = true;
+            _context.SaveChanges();
         }
     }
 

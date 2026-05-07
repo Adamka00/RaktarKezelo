@@ -56,6 +56,9 @@ namespace RaktarKezelo.Core.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<int>("KategoriaId")
                         .HasColumnType("int");
 

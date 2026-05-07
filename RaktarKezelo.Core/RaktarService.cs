@@ -68,9 +68,8 @@ public class RaktarService
 
     public List<Termek> Kereses(string kulcsszo)
     {
-        return _termekRepo.GetAll()
-            .Where(t => t.Nev.Contains(kulcsszo, StringComparison.OrdinalIgnoreCase) ||
-                        t.Cikkszam.Contains(kulcsszo, StringComparison.OrdinalIgnoreCase))
+        return _termekRepo.GetAll() 
+            .Where(t => t.Nev.Contains(kulcsszo, StringComparison.OrdinalIgnoreCase))
             .ToList();
     }
 
@@ -78,4 +77,75 @@ public class RaktarService
     {
         return DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
     }
-}
+
+    public void BiztonsagosKeszletModositas(int termekId, int mennyiseg, string tipus)
+    {
+        using var dbTranzakcio = _context.Database.BeginTransaction();
+        try
+        {
+            var termek = _termekRepo.GetById(termekId);
+            if (termek == null) throw new Exception("A termék nem található!");
+
+            // Készlet ellenőrzése kivétnél
+            if (mennyiseg < 0 && termek.Keszlet + mennyiseg < 0)
+                throw new Exception("Nincs elég készlet a raktárban!");
+
+            termek.Keszlet += mennyiseg;
+        
+            var naplo = new Tranzakcio
+            {
+                TermekId = termekId,
+                Mennyiseg = mennyiseg,
+                Datum = DateTime.Now,
+                Tipus = tipus
+            };
+
+            _context.Tranzakciok.Add(naplo);
+            _context.SaveChanges();
+            
+            dbTranzakcio.Commit();
+        }
+        catch (Exception e)
+        {
+            dbTranzakcio.Rollback();
+            throw;
+        }
+    }
+
+    public bool UjTermekMentesek(Termek ujTermek)
+    {
+        var letezik = _termekRepo.GetAll().Any(t =>t.Cikkszam == ujTermek.Cikkszam);
+        if (letezik) throw new Exception("Már létezik termék ezzel a cikkszámmal!");
+
+        if (ujTermek.Ar <= 0) throw new Exception("Az árnak pozitívnak kell lennie!");
+        
+        _termekRepo.Add(ujTermek);
+        _termekRepo.Save();
+        return true;
+    }
+    
+    public List<Termek> ReszletesKereses(string? nev, int? kategoriaId, decimal? minAr, decimal? maxAr)
+    {
+        var query = _termekRepo.GetAll().AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(nev))
+            query = query.Where(t => t.Nev.Contains(nev, StringComparison.OrdinalIgnoreCase));
+
+        if (kategoriaId.HasValue)
+            query = query.Where(t => t.KategoriaId == kategoriaId.Value);
+
+        if (minAr.HasValue)
+            query = query.Where(t => t.Ar >= minAr.Value);
+
+        if (maxAr.HasValue)
+            query = query.Where(t => t.Ar <= maxAr.Value);
+
+        return query.ToList();
+    }
+
+    public void TermekTorles(int id)
+    {
+        _termekRepo.Delete(id);
+        _termekRepo.Save();
+    }
+}   

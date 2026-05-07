@@ -32,4 +32,6 @@ public class Termek
 
     [ForeignKey("KategoriaId")]
     public virtual Kategoria Kategoria { get; set; } = null!; 
+    
+    public bool IsDeleted { get; set; } = false;
 }
