@@ -1,31 +1,32 @@
 # 📦 Raktárkezelő Rendszer (ProOktatás Projekt)
 
-Ez egy modern, rétegelt architektúrájú C# alkalmazás, amely a **ProOktatás Full-stack tanfolyamának** keretein belül készül. A projekt a fájlalapú tárolástól eljutott a professzionális, adatbázis-központú vállalati megoldásokig.
+Ez egy professzionális, többrétegű architektúrára épülő C# alkalmazás, amely a **ProOktatás Full-stack tanfolyamának** keretein belül készül. A projekt a kezdeti fájlalapú tárolástól eljutott a vállalati szintű, tranzakcióbiztos MySQL megoldásig.
 
 ## 🚀 Fejlesztési szakaszok
 1. **Konzolos prototípus (Legacy):** Kezdeti verzió CSV alapú tárolással. ✅
-2. **Adatbázis & Backend (Core):** Átállás MySQL alapokra, Entity Framework Core és Repository minta bevezetése. ✅ *JELENLEGI ÁLLAPOT*
-3. **WinForms GUI:** Modern grafikus felület és real-time statisztikák kialakítása. 🔜 *KÖVETKEZŐ LÉPÉS*
+2. **Adatbázis & Backend (Core):** MySQL alapok, Entity Framework Core és Repository minta. ✅
+3. **Üzleti Logika & Biztonság:** Soft Delete, összetett keresőmotor és tranzakciókezelés. ✅ *JELENLEGI ÁLLAPOT*
+4. **WinForms GUI:** Modern grafikus felület real-time statisztikákkal és órával. 🔜 *KÖVETKEZŐ LÉPÉS*
 
 ## 🛠 Alkalmazott technológiák
 - **Nyelv:** C# (.NET 10)
 - **Fejlesztőkörnyezet:** JetBrains Rider (macOS M1)
 - **Adatbázis:** MySQL / MariaDB (Pomelo EF Core provider)
-- **ORM:** Entity Framework Core (Code-First megközelítés, Migrations)
+- **ORM:** Entity Framework Core (Code-First megközelítés)
 - **Architektúra:** 
-    - **Repository Pattern:** Az adatkezelés elszigetelése az üzleti logikától.
-    - **Service Layer:** Központosított üzleti logika és készletkezelési algoritmusok.
+    - **Repository Pattern:** Adatbázis-műveletek absztrakciója.
+    - **Service Layer:** Központosított üzleti logika és hibakezelés.
+    - **Unit of Work szemlélet:** Tranzakcióbiztos készletmódosítás.
 
-## 🏗 Felépítés és Elvek (S.O.L.I.D.)
-A projekt a tiszta kód irányelveit követi:
-- **Single Responsibility:** Különálló rétegek az entitásoknak, az adatbázis-elérésnek és a logikának.
-- **Dependency Injection:** A Service réteg Repository-kon keresztül kommunikál az adatokkal.
-- **Adatintegritás:** SQL kényszerek (Foreign Keys), precíz `decimal(18,2)` típusú pénzügyi elszámolás.
+## 🏗 Haladó Megoldások
+- **Soft Delete:** A termékek nem törlődnek véglegesen az adatbázisból, így a korábbi tranzakciós előzmények (audit log) megmaradnak.
+- **Tranzakció Biztonság (Atomicity):** A készletmódosítás és a naplózás "mindent vagy semmit" alapon fut le; hiba esetén a rendszer automatikusan visszagörgeti (rollback) a folyamatot.
+- **Advanced Search:** Összetett szűrési lehetőség név, kategória és árintervallum alapján.
+- **Validáció:** Beépített védelem a negatív készlet és érvénytelen árazás ellen.
 
-## 📋 Jelenlegi funkciók (Backend)
-- [x] **Relációs adatmodell:** Összetett kapcsolatok a Termékek, Kategóriák és Tranzakciók között.
-- [x] **Automatizált naplózás:** Minden készletmozgás (bevételezés/eladás) automatikusan bekerül a `Tranzakciok` táblába.
-- [x] **Leltárkezelés:** Teljes raktárérték számítása, kategória szintű statisztikák.
-- [x] **Kritikus készlet figyelés:** Automatikus lekérdezés a minimum készlet alatti termékekre.
-- [x] **Keresőmotor:** Cikkszám és név alapú gyorskeresés LINQ segítségével.
-- [x] **Dátumkezelés:** Központosított időformázás és tranzakció-időbélyegzés.
+## 📋 Jelenlegi funkciók
+- [x] **Relációs adatmodell:** SQL Foreign Key kapcsolatok a konzisztenciáért.
+- [x] **Automatizált naplózás:** Minden mozgás időbélyeggel ellátott tranzakciót generál.
+- [x] **Leltárérték számítás:** Valós idejű pénzügyi összesítés a készletről.
+- [x] **Kritikus készlet figyelés:** Automatikus riasztás az utánpótlás szükségességéről.
+- [x] **Dátum- és Időkezelés:** Központosított, formázott időmegjelenítés.
