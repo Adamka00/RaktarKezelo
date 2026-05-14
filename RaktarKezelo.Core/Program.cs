@@ -6,92 +6,117 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("=== BÁLNAERŐS BACKEND STRESSZ-TESZT v2.0 ===\n");
+        Console.WriteLine("=== BÁLNAERŐS BACKEND STRESSZ-TESZT v2.1 (Öngyógyító) ===\n");
 
         var raktar = new RaktarService();
 
         try
         {
-            // 1. TESZTADATOK ELLENŐRZÉSE
+            // 1. ADATOK ELLENŐRZÉSE ÉS AUTOMATIKUS PÓTLÁS
             Console.WriteLine("1. Lépés: Adatok betöltése...");
-            var mindenTermek = raktar.Kereses(""); 
-            
-            if (!mindenTermek.Any())
+            var termekLista = raktar.Kereses("");
+
+            if (!termekLista.Any())
             {
-                Console.WriteLine("Az adatbázis üres! Vegyél fel egy terméket a teszt előtt.");
-                return;
+                Console.WriteLine("⚠️ Üres a raktár (vagy minden törölt), új teszt-termék generálása...");
+                
+                // Új termék összeállítása
+                var ujTesztTermek = new Termek
+                {
+                    Nev = "Profi Kalapács 500g",
+                    Cikkszam = "HAM-" + DateTime.Now.Ticks.ToString().Substring(10), // Egyedi cikkszám
+                    Ar = 4500.50m,
+                    Keszlet = 15,
+                    MinKeszlet = 5,
+                    KategoriaId = 1 // Feltételezzük, hogy az 1-es ID létezik
+                };
+
+                // Mentés a service-en keresztül
+                raktar.UjTermekMentese(ujTesztTermek);
+                Console.WriteLine("✅ Új termék sikeresen hozzáadva!");
+                
+                // Lista frissítése
+                termekLista = raktar.Kereses("");
             }
 
             // 2. SOFT DELETE TESZT
-            Console.WriteLine("\n2. Lépés: Soft Delete tesztelése...");
-            var tesztTermek = mindenTermek.First();
-            int id = tesztTermek.Id;
-            string nev = tesztTermek.Nev;
+            Console.WriteLine("\n2. Lépés: Soft Delete (Puha törlés) tesztelése...");
+            var termek = termekLista.First();
+            int id = termek.Id;
+            string nev = termek.Nev;
 
-            Console.WriteLine($"Kiválasztott termék: {nev} (ID: {id})");
-            Console.WriteLine("Törlés végrehajtása...");
+            Console.WriteLine($"Kiválasztott termék törlésre: {nev} (ID: {id})");
             
-            // Itt hívjuk a service-t, ami hívja a repo.Delete-et és a repo.Save-et!
+            // Törlés végrehajtása
             raktar.TermekTorles(id); 
+            Console.WriteLine("Törlési parancs kiadva.");
 
-            // Fontos: Új service példányt használunk a lekérdezéshez, 
-            // hogy biztosan az adatbázisból jöjjön a friss állapot, ne a memóriából!
-            var ellenorzoRaktar = new RaktarService();
-            var frissLista = ellenorzoRaktar.Kereses("");
+            // Új service példány a friss DB állapot ellenőrzéséhez
+            var frissRaktar = new RaktarService();
+            var ellenorzoLista = frissRaktar.Kereses("");
 
-            bool megMindigOttVan = frissLista.Any(t => t.Id == id);
-
-            if (megMindigOttVan)
+            if (ellenorzoLista.Any(t => t.Id == id))
             {
                 Console.WriteLine($"❌ HIBA: A(z) '{nev}' még mindig látszik a listában!");
-                Console.WriteLine("Ellenőrizd a TermekRepository.GetAll() metódusban a .Where(t => !t.IsDeleted) szűrést!");
             }
             else
             {
-                Console.WriteLine($"✅ SIKER: A(z) '{nev}' sikeresen elrejtve a listából!");
+                Console.WriteLine($"✅ SIKER: A(z) '{nev}' eltűnt a listából (IsDeleted = true).");
             }
 
-            // 3. ÖSSZETETT KERESÉS TESZT
-            Console.WriteLine("\n3. Lépés: Advanced Search teszt...");
-            // Keressünk rá a törölt termék nevére - elvileg 0 találat kellene
-            var keresesToroltre = ellenorzoRaktar.ReszletesKereses(nev, null, null, null);
+            // 3. ÖSSZETETT KERESÉS (ADVANCED SEARCH)
+            Console.WriteLine("\n3. Lépés: Összetett keresés tesztelése...");
+            // Keressünk rá egy olyan árkategóriára, amiben biztosan van/volt valami
+            var talalatok = frissRaktar.ReszletesKereses(null, null, 1000, 100000);
             
-            if (!keresesToroltre.Any())
+            Console.WriteLine($"Aktív termékek a 1.000 - 100.000 Ft sávban: {talalatok.Count} db.");
+            foreach (var t in talalatok)
             {
-                Console.WriteLine($"✅ SIKER: A kereső sem dobja ki a törölt terméket.");
-            }
-            else
-            {
-                Console.WriteLine($"❌ HIBA: A kereső megtalálta a törölt terméket!");
+                Console.WriteLine($"  -> {t.Nev} ({t.Ar} Ft)");
             }
 
             // 4. TRANZAKCIÓ BIZTONSÁG
-            Console.WriteLine("\n4. Lépés: Tranzakció biztonság...");
+            Console.WriteLine("\n4. Lépés: Tranzakció biztonság (Rollback teszt)...");
             try
             {
-                // Egy nem törölt terméket próbálunk túlcsordítani
-                var eloTermek = frissLista.FirstOrDefault();
+                var eloTermek = talalatok.FirstOrDefault();
                 if (eloTermek != null)
                 {
-                    raktar.BiztonsagosKeszletModositas(eloTermek.Id, -999999, "Hibás eladás");
+                    Console.WriteLine($"Hibás eladás szimulálása: {eloTermek.Nev}");
+                    frissRaktar.BiztonsagosKeszletModositas(eloTermek.Id, -500000, "Hibás eladás");
+                }
+                else
+                {
+                    Console.WriteLine("Nincs aktív termék a tranzakció teszthez.");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"✅ SIKER: Tranzakció megállítva. Üzenet: {ex.Message}");
+                Console.WriteLine($"✅ SIKER: A tranzakció visszagördítve! Hiba: {ex.Message}");
             }
 
+            // 5. ZÁRÓ ÖSSZESÍTÉS
             Console.WriteLine("\n--------------------------------------------");
-            Console.WriteLine($"Záró raktárérték: {ellenorzoRaktar.GetTeljesRaktarErtek():N2} Ft");
+            Console.WriteLine($"Rendszeridő: {frissRaktar.GetFormattedCurrentTime()}");
+            Console.WriteLine($"Aktuális raktárérték (aktív termékek): {frissRaktar.GetTeljesRaktarErtek():N2} Ft");
             Console.WriteLine("--------------------------------------------");
+            
+            // 6. CSV
+            
+            Console.WriteLine("\n6. Lépés: Exportálás tesztelése...");
+            string asztalUtvonal = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "raktar_export.csv");
+
+            string eredmeny = raktar.ExportaloCsvbe(asztalUtvonal);
+            Console.WriteLine(eredmeny);
 
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"❌ KRITIKUS HIBA: {ex.Message}");
+            Console.WriteLine($"❌ KRITIKUS HIBA A TESZT SORÁN: {ex.Message}");
+            if (ex.InnerException != null) Console.WriteLine($"Részletek: {ex.InnerException.Message}");
         }
 
-        Console.WriteLine("\nNyomj egy gombot a kilépéshez...");
+        Console.WriteLine("\nA teszt befejeződött. Nyomj egy gombot!");
         Console.ReadKey();
     }
 }

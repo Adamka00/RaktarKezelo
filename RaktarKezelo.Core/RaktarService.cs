@@ -112,7 +112,7 @@ public class RaktarService
         }
     }
 
-    public bool UjTermekMentesek(Termek ujTermek)
+    public bool UjTermekMentese(Termek ujTermek)
     {
         var letezik = _termekRepo.GetAll().Any(t =>t.Cikkszam == ujTermek.Cikkszam);
         if (letezik) throw new Exception("Már létezik termék ezzel a cikkszámmal!");
@@ -147,5 +147,30 @@ public class RaktarService
     {
         _termekRepo.Delete(id);
         _termekRepo.Save();
+    }
+
+    public string ExportaloCsvbe(string fajlUtvonal)
+    {
+        try
+        {
+            var termekek = _termekRepo.GetAll().ToList();
+
+            var csvTartalom = new System.Text.StringBuilder();
+            csvTartalom.AppendLine("Id;Nev;Cikkszam;Kategoria;Ar;Keszlet;Ertek");
+
+            foreach (var t in termekek)
+            {
+                decimal ertek = t.Ar * t.Keszlet;
+                csvTartalom.AppendLine($"{t.Id};{t.Nev};{t.Cikkszam};{t.Kategoria?.Nev};{t.Ar};{t.Keszlet};{ertek}");
+            }
+            
+            File.WriteAllText(fajlUtvonal, csvTartalom.ToString(), System.Text.Encoding.UTF8);
+            
+            return $"Sikeres exportálás: {termekek.Count} termék mentve ide: {fajlUtvonal}";
+        }
+        catch (Exception ex)
+        {
+            return $"Hiba történt a CSV exportálás során: {ex.Message}";
+        }
     }
 }   
