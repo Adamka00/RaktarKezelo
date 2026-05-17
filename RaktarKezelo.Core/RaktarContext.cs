@@ -14,7 +14,7 @@ public class RaktarContext : DbContext
     {
         if (!optionsBuilder.IsConfigured)
         {
-            string connectionString = "server=localhost;database=raktar_db;user=root;password=Ad123456";
+            string connectionString = "server=10.211.55.2;database=raktar_db;user=root;password=Ad123456";
 
             optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
         }
