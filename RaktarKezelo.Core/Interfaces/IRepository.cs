@@ -1,4 +1,4 @@
-namespace RaktarKezelo.Core;
+namespace RaktarKezelo.Core.Interfaces;
 
 public interface IRepository<T> where T : class
 {

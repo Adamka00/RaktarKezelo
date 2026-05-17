@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RaktarKezelo.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+347f0e773a2001d578906ce5391cec81177632d8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f766ce58a88419768f08cb14bf3eec8611a2f513")]
 [assembly: System.Reflection.AssemblyProductAttribute("RaktarKezelo.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RaktarKezelo.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

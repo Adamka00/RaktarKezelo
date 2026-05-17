@@ -1,6 +1,7 @@
 using RaktarKezelo.Core.Entities;
+using RaktarKezelo.Core.Interfaces;
 
-namespace RaktarKezelo.Core;
+namespace RaktarKezelo.Core.Repositories;
 
 public class KategoriaRepository : IRepository<Kategoria>
 {

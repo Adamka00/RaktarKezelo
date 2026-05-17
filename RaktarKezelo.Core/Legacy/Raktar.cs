@@ -1,7 +1,8 @@
 using RaktarKezelo.Core.Entities;
+using RaktarKezelo.Core.Interfaces;
 using System.Linq;
 
-namespace RaktarKezelo.Core;
+namespace RaktarKezelo.Core.Legacy;
 
 public class Raktar : IRaktar
 {

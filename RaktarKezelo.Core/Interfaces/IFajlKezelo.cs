@@ -1,5 +1,5 @@
 using RaktarKezelo.Core.Entities;
-namespace RaktarKezelo.Core;
+namespace RaktarKezelo.Core.Interfaces;
 
 public interface IFajlKezelo
 {

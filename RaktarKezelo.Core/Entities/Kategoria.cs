@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
-using RaktarKezelo.Core.Entities;
 
 namespace RaktarKezelo.Core.Entities;
 

@@ -1,4 +1,5 @@
 ﻿using RaktarKezelo.Core.Entities;
+using RaktarKezelo.Core.Services;
 
 namespace RaktarKezelo.Core;
 

@@ -1,7 +1,7 @@
 using RaktarKezelo.Core.Entities;
 using RaktarKezelo.Core.Repositories;
 
-namespace RaktarKezelo.Core;
+namespace RaktarKezelo.Core.Services;
 
 public class RaktarService
 {

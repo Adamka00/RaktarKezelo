@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using RaktarKezelo.Core.Entities;
+using RaktarKezelo.Core.Interfaces;
 
 namespace RaktarKezelo.Core.Repositories;
 
