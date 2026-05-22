@@ -37,6 +37,7 @@
             txtKereses = new TextBox();
             btnKereses = new Button();
             panel1 = new Panel();
+            btnMentes = new Button();
             txtUjKategoriaId = new TextBox();
             label7 = new Label();
             txtUjKeszlet = new TextBox();
@@ -48,7 +49,7 @@
             txtUjNev = new TextBox();
             label3 = new Label();
             label2 = new Label();
-            btnMentes = new Button();
+            btnTorles = new Button();
             statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvTermekek).BeginInit();
             panel1.SuspendLayout();
@@ -80,8 +81,10 @@
             dgvTermekek.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvTermekek.Location = new Point(0, 33);
             dgvTermekek.Name = "dgvTermekek";
+            dgvTermekek.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvTermekek.Size = new Size(625, 395);
             dgvTermekek.TabIndex = 1;
+            dgvTermekek.CellDoubleClick += dgvTermekek_CellDoubleClick;
             // 
             // label1
             // 
@@ -129,6 +132,17 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(169, 390);
             panel1.TabIndex = 5;
+            // 
+            // btnMentes
+            // 
+            btnMentes.FlatStyle = FlatStyle.Flat;
+            btnMentes.Location = new Point(7, 277);
+            btnMentes.Name = "btnMentes";
+            btnMentes.Size = new Size(159, 47);
+            btnMentes.TabIndex = 11;
+            btnMentes.Text = "Termék Mentése";
+            btnMentes.UseVisualStyleBackColor = true;
+            btnMentes.Click += btnMentes_Click;
             // 
             // txtUjKategoriaId
             // 
@@ -219,21 +233,24 @@
             label2.TabIndex = 0;
             label2.Text = "Új termék felvétele";
             // 
-            // btnMentes
+            // btnTorles
             // 
-            btnMentes.Location = new Point(7, 277);
-            btnMentes.Name = "btnMentes";
-            btnMentes.Size = new Size(159, 47);
-            btnMentes.TabIndex = 11;
-            btnMentes.Text = "Termék Mentése";
-            btnMentes.UseVisualStyleBackColor = true;
-            btnMentes.Click += btnMentes_Click;
+            btnTorles.BackColor = Color.DarkOrange;
+            btnTorles.FlatStyle = FlatStyle.Flat;
+            btnTorles.Location = new Point(512, 7);
+            btnTorles.Name = "btnTorles";
+            btnTorles.Size = new Size(113, 23);
+            btnTorles.TabIndex = 6;
+            btnTorles.Text = "Termék törlése";
+            btnTorles.UseVisualStyleBackColor = false;
+            btnTorles.Click += btnTorles_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(btnTorles);
             Controls.Add(panel1);
             Controls.Add(btnKereses);
             Controls.Add(txtKereses);
@@ -241,7 +258,7 @@
             Controls.Add(dgvTermekek);
             Controls.Add(statusStrip1);
             Name = "Form1";
-            Text = "Form1";
+            Text = "Raktárkezelő";
             statusStrip1.ResumeLayout(false);
             statusStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvTermekek).EndInit();
@@ -273,5 +290,6 @@
         private TextBox txtUjKategoriaId;
         private Label label7;
         private Button btnMentes;
+        private Button btnTorles;
     }
 }

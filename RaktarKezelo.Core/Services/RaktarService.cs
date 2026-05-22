@@ -86,7 +86,6 @@ public class RaktarService
             var termek = _termekRepo.GetById(termekId);
             if (termek == null) throw new Exception("A termék nem található!");
 
-            // Készlet ellenőrzése kivétnél
             if (mennyiseg < 0 && termek.Keszlet + mennyiseg < 0)
                 throw new Exception("Nincs elég készlet a raktárban!");
 
@@ -112,18 +111,37 @@ public class RaktarService
         }
     }
 
-    public bool UjTermekMentese(Termek ujTermek)
+    public void Hozzaadas(Termek ujTermek)
     {
-        var letezik = _termekRepo.GetAll().Any(t =>t.Cikkszam == ujTermek.Cikkszam);
+        var letezik = _termekRepo.GetAll().Any(t => t.Cikkszam == ujTermek.Cikkszam);
         if (letezik) throw new Exception("Már létezik termék ezzel a cikkszámmal!");
 
         if (ujTermek.Ar <= 0) throw new Exception("Az árnak pozitívnak kell lennie!");
-        
+
         _termekRepo.Add(ujTermek);
         _termekRepo.Save();
+    }
+
+    public void Modositas(Termek frissitettTermek)
+    {
+        var letezoTermek = _termekRepo.GetById(frissitettTermek.Id);
+        if (letezoTermek == null) throw new Exception("A módosítani kívánt termék nem található!");
+
+        letezoTermek.Nev = frissitettTermek.Nev;
+        letezoTermek.Cikkszam = frissitettTermek.Cikkszam;
+        letezoTermek.Ar = frissitettTermek.Ar;
+        letezoTermek.Keszlet = frissitettTermek.Keszlet;
+        letezoTermek.KategoriaId = frissitettTermek.KategoriaId;
+
+        _termekRepo.Save();
+    }
+
+    public bool UjTermekMentese(Termek ujTermek)
+    {
+        Hozzaadas(ujTermek);
         return true;
     }
-    
+
     public List<Termek> ReszletesKereses(string? nev, int? kategoriaId, decimal? minAr, decimal? maxAr)
     {
         var query = _termekRepo.GetAll().AsQueryable();
