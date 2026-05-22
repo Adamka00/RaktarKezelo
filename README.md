@@ -1,34 +1,31 @@
 # 📦 Raktárkezelő Rendszer (ProOktatás Projekt)
 
-Ez egy professzionális, többrétegű architektúrára épülő C# alkalmazás, amely a **ProOktatás Full-stack tanfolyamának** keretein belül készül. A projekt a kezdeti fájlalapú tárolástól mára eljutott egy hálózaton átívelő, Windows-Mac hibrid környezetben futó, vállalati szintű MySQL megoldásig.
+Ez egy professzionális, többrétegű architektúrára épülő C# alkalmazás, amely a **ProOktatás Full-stack tanfolyamának** keretein belül készül. A projekt egyetlen közös backend architektúrából (Core) képes kiszolgálni a korábbi konzolos verziót és a modern, ablakos Windows felületet egyaránt.
 
 ## 🚀 Fejlesztési szakaszok
-1. **Konzolos prototípus (Legacy):** Kezdeti verzió CSV alapú tárolással. ✅
-2. **Adatbázis & Backend (Core):** MySQL alapok, Entity Framework Core és Repository minta. ✅
-3. **Üzleti Logika & Biztonság:** Soft Delete, összetett keresőmotor és tranzakciókezelés. ✅
-4. **WinForms GUI (Frontend):** Modern grafikus felület real-time MySQL adatszűréssel, adatbeviteli validációval és ketyegő rendszeridővel. ✅ *JELENLEGI ÁLLAPOT*
+1. **Konzolos prototípus (Legacy):** Kezdeti verzió CSV alapú tárolással, majd MySQL integrációval. ✅
+2. **Adatbázis & Backend (Core):** Relációs MySQL alapok, Entity Framework Core és Repository minta. ✅
+3. **Üzleti Logika & Biztonság:** Összetett tranzakciókezelés, Unit of Work szemlélet és visszamenőleges API kompatibilitás. ✅
+4. **WinForms GUI (Frontend):** Teljes értékű grafikus adminisztrációs felület real-time adatszűréssel és helyszíni adatvalidációval. ✅ *JELENLEGI ÁLLAPOT*
 
 ## 🛠 Alkalmazott technológiák és Környezet
 - **Nyelv & Keretrendszer:** C# (.NET 9.0)
 - **Hibrid Fejlesztői Környezet:**
-  - **Host (Mac):** JetBrains Rider macOS (M1) – Itt fut a központi backend fejlesztés és a helyi MySQL / MariaDB szerver.
-  - **Guest (Windows):** Parallels Desktop virtuális gép & Microsoft Visual Studio – Itt fut a Windows-specifikus WinForms frontend, amely belső virtuális hálózati hídon (Named Pipes & IP-híd) keresztül kommunikál a Mac-es adatbázissal.
+  - **Host (Mac):** JetBrains Rider macOS (M1) – A központi backend (Core) üzleti logikájának és a helyi MySQL / MariaDB szervernek a futtató környezete.
+  - **Guest (Windows):** Parallels Desktop virtuális gép & Microsoft Visual Studio – A Windows-specifikus WinForms frontend hazája, amely belső virtuális hálózati hídon (IP-híd) keresztül éri el a Mac-en pörgő adatbázist.
 - **ORM:** Entity Framework Core (Code-First megközelítés, Pomelo provider)
-- **Architektúra:** - **Repository Pattern:** Adatbázis-műveletek tiszta absztrakciója.
-    - **Service Layer:** Központosított üzleti logika és hibakezelés.
-    - **Unit of Work szemlélet:** Tranzakcióbiztos készletmódosítás.
 
-## 🏗 Haladó Megoldások & WinForms Funkciók
-- **Élő Grafikus Felület:** DataGridView alapú termékmegjelenítés, amely közvetlenül a távoli MySQL szerverről táplálkozik.
-- **Real-time Keresőmotor:** Gépelés közbeni (TextChanged alapú) azonnali szűrés név és cikkszám alapján.
-- **Golyóálló Adatbevitel:** Beépített `TryParse` alapú formvalidáció a frontend oldalon, ami megakadályozza az érvénytelen árak, negatív készletek vagy hibás karakterek adatbázisba kerülését.
-- **Soft Delete:** A termékek nem törlődnek véglegesen az adatbázisból, így a korábbi tranzakciós előzmények (audit log) megmaradnak.
-- **Tranzakció Biztonság (Atomicity):** A készletmódosítás és a naplózás "mindent vagy semmit" alapon fut le; hiba esetén a rendszer automatikusan visszagörgeti (rollback) a folyamatot.
+## 🏗 Megvalósított CRUD & Haladó Funkciók
+- **[C] Create (Hozzáadás):** Új termékek felvétele oldalsávos adatbeviteli panellel. Golyóálló frontend oldali `TryParse` validáció véd az üres mezők, a negatív készletek és az érvénytelen árak ellen.
+- **[R] Read (Megjelenítés & Keresés):** DataGridView alapú táblázat, amely az aszinkron adatelérés mellett `TextChanged` eseményre kötött, azonnali (gépelés közbeni) szűrést biztosít név és cikkszám alapján.
+- **[U] Update (Módosítás):** Intelligens, kettős funkciójú mentési logika. A táblázat egy során végzett dupla kattintásra az adatok visszatöltődnek a beviteli mezőkbe, a form állapota átvált, és a gomb a meglévő rekordot frissíti a MySQL-ben.
+- **[D] Delete (Soft Delete):** Biztonsági kérdéssel megerősített törlés. A rekordok nem semmisülnek meg fizikai szinten, csupán egy `IsDeleted` logikai jelzőt kapnak, megőrizve a korábbi tranzakciós naplók konzisztenciáját.
+- **Tranzakció Biztonság (Atomicity):** A készletmódosítások és a hozzájuk tartozó pénzügyi/raktári naplózások "mindent vagy semmit" alapon, rollback-biztos adatbázis-tranzakciókban futnak le.
 
-## 📋 Jelenlegi funkciók
-- [x] **Relációs adatmodell:** SQL Foreign Key kapcsolatok a konzisztenciáért.
-- [x] **Automatizált naplózás:** Minden mozgás időbélyeggel ellátott tranzakciót generál.
-- [x] **Leltárérték számítás:** Valós idejű pénzügyi összesítés a készletről.
-- [x] **Kritikus készlet figyelés:** Automatikus riasztás az utánpótlás szükségességéről.
-- [x] **Dátum- és Időkezelés:** Központosított, másodpercre pontos rendszeridő-kijelzés a WinForms StatusStrip-en.
-- [x] **Biztonságos mentés:** Teljes Unicode (UTF-8) támogatás a magyar ékezetes karakterek megőrzéséért.
+## 📋 Rendelkezésre álló üzleti funkciók
+- [x] **Kétoldalú Frontend Kiszolgálás:** A `RaktarService` egyszerre támogatja az új WinForms eseményeket és nyújt legacy támogatást a konzolos kliens felé.
+- [x] **Automatizált naplózás:** Minden készletmozgás időbélyeggel ellátott audit-tranzakciót generál.
+- [x] **Leltárérték számítás:** Valós idejű pénzügyi összesítés a teljes készletről a LINQ motor segítségével.
+- [x] **Kritikus készlet figyelés:** Automatikus riasztási szint az utánpótlás szükségességéről (`MinKeszlet`).
+- [x] **Rendszeridő szinkron:** Központosított, másodpercre pontos formázott időkijelzés a WinForms alsó állapotsorán (`StatusStrip`).
+- [x] **UTF-8 Kódolás:** Teljes körű Unicode támogatás a magyar ékezetes karakterek hibátlan mentéséért és megjelenítéséért.
