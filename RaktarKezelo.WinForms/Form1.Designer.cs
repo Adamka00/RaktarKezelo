@@ -36,7 +36,7 @@
             label1 = new Label();
             txtKereses = new TextBox();
             btnKereses = new Button();
-            panel1 = new Panel();
+            pnlOldalsav = new Panel();
             btnMentes = new Button();
             txtUjKategoriaId = new TextBox();
             label7 = new Label();
@@ -50,8 +50,12 @@
             label3 = new Label();
             label2 = new Label();
             btnTorles = new Button();
+            btnDashboard = new Button();
+            btnOldalsavToggle = new Button();
+            panel1 = new Panel();
             statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvTermekek).BeginInit();
+            pnlOldalsav.SuspendLayout();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -79,10 +83,11 @@
             // dgvTermekek
             // 
             dgvTermekek.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvTermekek.Location = new Point(0, 33);
+            dgvTermekek.Dock = DockStyle.Fill;
+            dgvTermekek.Location = new Point(0, 30);
             dgvTermekek.Name = "dgvTermekek";
             dgvTermekek.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvTermekek.Size = new Size(625, 395);
+            dgvTermekek.Size = new Size(800, 398);
             dgvTermekek.TabIndex = 1;
             dgvTermekek.CellDoubleClick += dgvTermekek_CellDoubleClick;
             // 
@@ -106,32 +111,34 @@
             // btnKereses
             // 
             btnKereses.FlatStyle = FlatStyle.Flat;
-            btnKereses.Location = new Point(272, 4);
+            btnKereses.Location = new Point(263, 4);
             btnKereses.Name = "btnKereses";
             btnKereses.Size = new Size(75, 23);
             btnKereses.TabIndex = 4;
             btnKereses.Text = "Keresés";
             btnKereses.UseVisualStyleBackColor = true;
+            btnKereses.Visible = false;
             btnKereses.Click += btnKereses_Click;
             // 
-            // panel1
+            // pnlOldalsav
             // 
-            panel1.Controls.Add(btnMentes);
-            panel1.Controls.Add(txtUjKategoriaId);
-            panel1.Controls.Add(label7);
-            panel1.Controls.Add(txtUjKeszlet);
-            panel1.Controls.Add(label5);
-            panel1.Controls.Add(txtUjAr);
-            panel1.Controls.Add(label6);
-            panel1.Controls.Add(txtUjCikkszam);
-            panel1.Controls.Add(label4);
-            panel1.Controls.Add(txtUjNev);
-            panel1.Controls.Add(label3);
-            panel1.Controls.Add(label2);
-            panel1.Location = new Point(631, 33);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(169, 390);
-            panel1.TabIndex = 5;
+            pnlOldalsav.Controls.Add(btnMentes);
+            pnlOldalsav.Controls.Add(txtUjKategoriaId);
+            pnlOldalsav.Controls.Add(label7);
+            pnlOldalsav.Controls.Add(txtUjKeszlet);
+            pnlOldalsav.Controls.Add(label5);
+            pnlOldalsav.Controls.Add(txtUjAr);
+            pnlOldalsav.Controls.Add(label6);
+            pnlOldalsav.Controls.Add(txtUjCikkszam);
+            pnlOldalsav.Controls.Add(label4);
+            pnlOldalsav.Controls.Add(txtUjNev);
+            pnlOldalsav.Controls.Add(label3);
+            pnlOldalsav.Controls.Add(label2);
+            pnlOldalsav.Dock = DockStyle.Right;
+            pnlOldalsav.Location = new Point(631, 30);
+            pnlOldalsav.Name = "pnlOldalsav";
+            pnlOldalsav.Size = new Size(169, 398);
+            pnlOldalsav.TabIndex = 5;
             // 
             // btnMentes
             // 
@@ -237,7 +244,7 @@
             // 
             btnTorles.BackColor = Color.DarkOrange;
             btnTorles.FlatStyle = FlatStyle.Flat;
-            btnTorles.Location = new Point(512, 7);
+            btnTorles.Location = new Point(512, 4);
             btnTorles.Name = "btnTorles";
             btnTorles.Size = new Size(113, 23);
             btnTorles.TabIndex = 6;
@@ -245,23 +252,59 @@
             btnTorles.UseVisualStyleBackColor = false;
             btnTorles.Click += btnTorles_Click;
             // 
+            // btnDashboard
+            // 
+            btnDashboard.FlatStyle = FlatStyle.Flat;
+            btnDashboard.Location = new Point(390, 3);
+            btnDashboard.Name = "btnDashboard";
+            btnDashboard.Size = new Size(116, 23);
+            btnDashboard.TabIndex = 7;
+            btnDashboard.Text = "Műszerfal";
+            btnDashboard.UseVisualStyleBackColor = true;
+            btnDashboard.Click += btnDashboard_Click;
+            // 
+            // btnOldalsavToggle
+            // 
+            btnOldalsavToggle.FlatStyle = FlatStyle.Flat;
+            btnOldalsavToggle.Location = new Point(631, 3);
+            btnOldalsavToggle.Name = "btnOldalsavToggle";
+            btnOldalsavToggle.Size = new Size(166, 23);
+            btnOldalsavToggle.TabIndex = 8;
+            btnOldalsavToggle.Text = "Oldalsáv megjelenítése";
+            btnOldalsavToggle.UseVisualStyleBackColor = true;
+            btnOldalsavToggle.Click += btnOldalsavToggle_Click;
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(btnOldalsavToggle);
+            panel1.Controls.Add(label1);
+            panel1.Controls.Add(btnTorles);
+            panel1.Controls.Add(btnDashboard);
+            panel1.Controls.Add(txtKereses);
+            panel1.Controls.Add(btnKereses);
+            panel1.Dock = DockStyle.Top;
+            panel1.Location = new Point(0, 0);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(800, 30);
+            panel1.TabIndex = 9;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(btnTorles);
-            Controls.Add(panel1);
-            Controls.Add(btnKereses);
-            Controls.Add(txtKereses);
-            Controls.Add(label1);
+            Controls.Add(pnlOldalsav);
             Controls.Add(dgvTermekek);
             Controls.Add(statusStrip1);
+            Controls.Add(panel1);
             Name = "Form1";
             Text = "Raktárkezelő";
+            Load += Form1_Load;
             statusStrip1.ResumeLayout(false);
             statusStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvTermekek).EndInit();
+            pnlOldalsav.ResumeLayout(false);
+            pnlOldalsav.PerformLayout();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);
@@ -277,7 +320,7 @@
         private Label label1;
         private TextBox txtKereses;
         private Button btnKereses;
-        private Panel panel1;
+        private Panel pnlOldalsav;
         private Label label2;
         private TextBox txtUjNev;
         private Label label3;
@@ -291,5 +334,8 @@
         private Label label7;
         private Button btnMentes;
         private Button btnTorles;
+        private Button btnDashboard;
+        private Button btnOldalsavToggle;
+        private Panel panel1;
     }
 }

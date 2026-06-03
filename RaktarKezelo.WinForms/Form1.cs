@@ -12,19 +12,17 @@ public partial class Form1 : Form
     {
         InitializeComponent();
 
-        // Elindítjuk a backendet és a MySQL kapcsolatot
         _raktarService = new RaktarService();
-        this.Text = "Gyári Raktárkezelő Alkalmazás Beta v1.0";
+        this.Text = "Gyári Raktárkezelő Alkalmazás Beta";
 
         TermekekFrissitese();
+
     }
 
     private void TermekekFrissitese()
     {
-        // Lekérjük az aktív termékeket az adatbázisból
         var aktivTermekek = _raktarService.Kereses("");
 
-        // Rárakjuk a táblázatra
         dgvTermekek.DataSource = aktivTermekek;
     }
 
@@ -150,6 +148,11 @@ public partial class Form1 : Form
 
     private void dgvTermekek_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
     {
+        if (!pnlOldalsav.Visible)
+        {
+            btnOldalsavToggle.PerformClick();
+        }
+
         if (dgvTermekek.SelectedRows.Count > 0)
         {
             var sor = dgvTermekek.SelectedRows[0];
@@ -164,5 +167,34 @@ public partial class Form1 : Form
 
             btnMentes.Text = "Módosítás Mentése";
         }
+    }
+
+    private void btnDashboard_Click(object sender, EventArgs e)
+    {
+        using (var dashboard = new DashboardForm())
+        {
+            dashboard.ShowDialog();
+        }
+    }
+
+    private void btnOldalsavToggle_Click(object sender, EventArgs e)
+    {
+        pnlOldalsav.Visible = !pnlOldalsav.Visible;
+
+        if (pnlOldalsav.Visible)
+        {
+            btnOldalsavToggle.Text = "Oldalsáv elrejtése";
+        }
+        else
+        {
+            btnOldalsavToggle.Text = "Új termék / Szerkesztés";
+        }
+    }
+
+    private void Form1_Load(object sender, EventArgs e)
+    {
+        pnlOldalsav.Visible = false;
+
+        btnOldalsavToggle.Text = "Új termék / Szerkesztés";
     }
 }
