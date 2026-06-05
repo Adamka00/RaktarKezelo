@@ -29,16 +29,17 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             statusStrip1 = new StatusStrip();
             lblStatusIdo = new ToolStripStatusLabel();
             oraTimer = new System.Windows.Forms.Timer(components);
             dgvTermekek = new DataGridView();
             label1 = new Label();
             txtKereses = new TextBox();
-            btnKereses = new Button();
             pnlOldalsav = new Panel();
+            cmbKategoria = new ComboBox();
             btnMentes = new Button();
-            txtUjKategoriaId = new TextBox();
             label7 = new Label();
             txtUjKeszlet = new TextBox();
             label5 = new Label();
@@ -53,6 +54,7 @@
             btnDashboard = new Button();
             btnOldalsavToggle = new Button();
             panel1 = new Panel();
+            btnCsvExport = new Button();
             statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvTermekek).BeginInit();
             pnlOldalsav.SuspendLayout();
@@ -82,10 +84,30 @@
             // 
             // dgvTermekek
             // 
+            dataGridViewCellStyle1.BackColor = SystemColors.ScrollBar;
+            dgvTermekek.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dgvTermekek.BackgroundColor = Color.White;
+            dgvTermekek.BorderStyle = BorderStyle.None;
+            dgvTermekek.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvTermekek.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.ControlDarkDark;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = Color.White;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgvTermekek.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dgvTermekek.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvTermekek.Dock = DockStyle.Fill;
+            dgvTermekek.GridColor = Color.Silver;
             dgvTermekek.Location = new Point(0, 30);
             dgvTermekek.Name = "dgvTermekek";
+            dgvTermekek.RowHeadersVisible = false;
+            dgvTermekek.RowTemplate.DefaultCellStyle.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dgvTermekek.RowTemplate.DefaultCellStyle.SelectionBackColor = SystemColors.Highlight;
+            dgvTermekek.RowTemplate.DefaultCellStyle.SelectionForeColor = Color.White;
+            dgvTermekek.RowTemplate.Height = 28;
             dgvTermekek.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvTermekek.Size = new Size(800, 398);
             dgvTermekek.TabIndex = 1;
@@ -108,22 +130,10 @@
             txtKereses.TabIndex = 3;
             txtKereses.TextChanged += txtKereses_TextChanged;
             // 
-            // btnKereses
-            // 
-            btnKereses.FlatStyle = FlatStyle.Flat;
-            btnKereses.Location = new Point(263, 4);
-            btnKereses.Name = "btnKereses";
-            btnKereses.Size = new Size(75, 23);
-            btnKereses.TabIndex = 4;
-            btnKereses.Text = "Keresés";
-            btnKereses.UseVisualStyleBackColor = true;
-            btnKereses.Visible = false;
-            btnKereses.Click += btnKereses_Click;
-            // 
             // pnlOldalsav
             // 
+            pnlOldalsav.Controls.Add(cmbKategoria);
             pnlOldalsav.Controls.Add(btnMentes);
-            pnlOldalsav.Controls.Add(txtUjKategoriaId);
             pnlOldalsav.Controls.Add(label7);
             pnlOldalsav.Controls.Add(txtUjKeszlet);
             pnlOldalsav.Controls.Add(label5);
@@ -140,6 +150,15 @@
             pnlOldalsav.Size = new Size(169, 398);
             pnlOldalsav.TabIndex = 5;
             // 
+            // cmbKategoria
+            // 
+            cmbKategoria.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbKategoria.FormattingEnabled = true;
+            cmbKategoria.Location = new Point(9, 240);
+            cmbKategoria.Name = "cmbKategoria";
+            cmbKategoria.Size = new Size(157, 23);
+            cmbKategoria.TabIndex = 12;
+            // 
             // btnMentes
             // 
             btnMentes.FlatStyle = FlatStyle.Flat;
@@ -150,13 +169,6 @@
             btnMentes.Text = "Termék Mentése";
             btnMentes.UseVisualStyleBackColor = true;
             btnMentes.Click += btnMentes_Click;
-            // 
-            // txtUjKategoriaId
-            // 
-            txtUjKategoriaId.Location = new Point(7, 225);
-            txtUjKategoriaId.Name = "txtUjKategoriaId";
-            txtUjKategoriaId.Size = new Size(159, 23);
-            txtUjKategoriaId.TabIndex = 10;
             // 
             // label7
             // 
@@ -276,17 +288,28 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(btnCsvExport);
             panel1.Controls.Add(btnOldalsavToggle);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(btnTorles);
             panel1.Controls.Add(btnDashboard);
             panel1.Controls.Add(txtKereses);
-            panel1.Controls.Add(btnKereses);
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
             panel1.Size = new Size(800, 30);
             panel1.TabIndex = 9;
+            // 
+            // btnCsvExport
+            // 
+            btnCsvExport.FlatStyle = FlatStyle.Flat;
+            btnCsvExport.Location = new Point(263, 3);
+            btnCsvExport.Name = "btnCsvExport";
+            btnCsvExport.Size = new Size(95, 23);
+            btnCsvExport.TabIndex = 9;
+            btnCsvExport.Text = "CSV Exportálás";
+            btnCsvExport.UseVisualStyleBackColor = true;
+            btnCsvExport.Click += btnCsvExport_Click;
             // 
             // Form1
             // 
@@ -319,7 +342,6 @@
         private DataGridView dgvTermekek;
         private Label label1;
         private TextBox txtKereses;
-        private Button btnKereses;
         private Panel pnlOldalsav;
         private Label label2;
         private TextBox txtUjNev;
@@ -330,12 +352,13 @@
         private Label label6;
         private TextBox txtUjCikkszam;
         private Label label4;
-        private TextBox txtUjKategoriaId;
         private Label label7;
         private Button btnMentes;
         private Button btnTorles;
         private Button btnDashboard;
         private Button btnOldalsavToggle;
         private Panel panel1;
+        private Button btnCsvExport;
+        private ComboBox cmbKategoria;
     }
 }

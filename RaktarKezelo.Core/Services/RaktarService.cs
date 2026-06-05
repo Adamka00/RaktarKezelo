@@ -191,4 +191,14 @@ public class RaktarService
             return $"Hiba történt a CSV exportálás során: {ex.Message}";
         }
     }
+
+    public List<Kategoria> GetKategoriak()
+    {
+        return _kategoriaRepo.GetAll().ToList();
+    }
+
+    public Termek GetTermekById(int id)
+    {
+        return _termekRepo.GetById(id);
+    }
 }   

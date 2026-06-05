@@ -93,7 +93,7 @@
             MaximizeBox = false;
             Name = "LoginForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Bejelentkzés";
+            Text = "Bejelentkezés";
             ResumeLayout(false);
             PerformLayout();
         }
