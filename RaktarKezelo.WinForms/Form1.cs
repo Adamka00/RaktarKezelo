@@ -14,7 +14,7 @@ public partial class Form1 : Form
 
         _raktarService = new RaktarService();
 
-        this.Text = "Gyári Raktárkezelő Alkalmazás Beta";
+        this.Text = "Gyári Raktárkezelő Alkalmazás 1.0";
 
 
         TermekekFrissitese();
